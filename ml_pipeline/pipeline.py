@@ -66,6 +66,7 @@ def create_pipeline(pipeline_name: Text,
 
     # Import schema from local directory.
     schema_importer = ImporterNode(
+        instance_name='RawSchemaImporter',
         source_uri=RAW_SCHEMA_DIR,
         artifact_type=Schema,
     )

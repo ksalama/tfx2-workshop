@@ -3,9 +3,9 @@
 This repository is a workshop for implementing a Machine Learning (ML) training pipeline using TensorFlow Extended (TFX)
 and AI Platform Pipelines. The ML pipeline uses Google Cloud Platform (GCP) managed services.
 
-This workshop uses **Python 3.6** requires the following packages:
+This workshop uses **Python 3.7** requires the following packages:
 
-* TensorFlow 2.2
+* TensorFlow 2.1
 * TFX  2.1.4
 * KFP SDK 0.5.1
 

@@ -1,2 +1,3 @@
 FROM tensorflow/tfx:0.21.4
-ADD ml_pipeline ml_pipeline
+ADD modules modules
+ADD raw_schema raw_schema
