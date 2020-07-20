@@ -7,6 +7,7 @@ to run the TFX workshop:
 2. Build ML Container Image
 3. Create AI Notebook Instance
 4. Provision AI Platform Pipelines
+5. Create Cloud Build container image
 
 You can use the `gcloud` command line interface in **Cloud Shell** to 
 setup the environment
@@ -104,3 +105,16 @@ gcloud compute instances create $INSTANCE_NAME \
 In order to create a hosted KFP on AI Platform pipelines, 
 please follow the instruction in the documentation of 
 [Setting up AI Platform Pipelines](https://cloud.google.com/ai-platform/pipelines/docs/setting-up).
+
+
+## Create Cloud Build container image
+
+In order to use Cloud Build to compile the TFX pipeline and deploy to the KFP cluster,
+We need a container image with the tfx and kfp SDK
+
+```
+IMAGE_NAME=tfx-cli
+TAG=latest
+IMAGE_URI=gcr.io/${PROJECT_ID}/${IMAGE_NAME}:${TAG}
+gcloud builds submit --timeout 15m --tag ${IMAGE_URI} tfx-cli
+```
