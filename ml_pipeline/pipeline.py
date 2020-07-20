@@ -36,9 +36,9 @@ from tfx.types.standard_artifacts import Schema
 
 from modules import sql_utils, helper
 
-RAW_SCHEMA_DIR='raw_schema'
-TRANSFORM_MODULE_FILE='modules/transform.py'
-TRAIN_MODULE_FILE='modules/train.py'
+RAW_SCHEMA_DIR='ml_pipeline/raw_schema'
+TRANSFORM_MODULE_FILE='ml_pipeline/modules/transform.py'
+TRAIN_MODULE_FILE='ml_pipeline/modules/train.py'
 
 
 def create_pipeline(pipeline_name: Text, 
