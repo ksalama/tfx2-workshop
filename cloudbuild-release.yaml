@@ -25,7 +25,7 @@ steps:
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/$_TFX_IMAGE_NAME:$TAG_NAME', '.']
   id: 'Build the image with the component modules'
 
-  
+# Compile and deploy the TFX pipeline to KFP    
 - name: 'gcr.io/$PROJECT_ID/tfx-cli'
   args: ['pipeline', 'create', '--engine', 'kubeflow', '--pipeline_path', '$_PIPELINE_DSL', '--endpoint', '$_ENDPOINT']
   env: 
@@ -36,7 +36,7 @@ steps:
   - 'DATASET_NAME=$_DATASET_NAME'
   - 'PIPELINE_NAME=${_PIPELINE_NAME}-${TAG_NAME}'
   - 'GCP_REGION=$_GCP_REGION'
-  - 'RUNTIME_VERSION=_$_RUNTIME_VERSION'
+  - 'RUNTIME_VERSION=$_RUNTIME_VERSION'
   - 'PYTHON_VERSION=$_PYTHON_VERSION'
   - 'USE_KFP_SA=$_USE_KFP_SA'
   id: 'Compile and deploy TFX Pipeline to KFP'
