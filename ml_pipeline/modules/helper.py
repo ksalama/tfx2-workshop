@@ -18,7 +18,7 @@ import tensorflow_model_analysis as tfma
 def get_eval_config():
     model_specs = [
         tfma.ModelSpec(
-            signature_name='serving_tf_examples',
+            signature_name='serving_default',
             label_key='income_bracket',
             example_weight_key='fnlwgt')]
 
@@ -39,3 +39,35 @@ def get_eval_config():
     )
     
     return eval_config
+
+
+
+def get_accuracy_eval_config(accuracy_threshold):
+    accuracy_threshold = tfma.MetricThreshold(
+        value_threshold=tfma.GenericValueThreshold(
+            lower_bound={'value': accuracy_threshold},
+            upper_bound={'value': 0.99}),
+        change_threshold=tfma.GenericChangeThreshold(
+            absolute={'value': 0.0001},
+            direction=tfma.MetricDirection.HIGHER_IS_BETTER)
+    )
+
+    metrics_specs = tfma.MetricsSpec(
+        metrics = [
+            tfma.MetricConfig(
+                class_name='BinaryAccuracy',
+                threshold=accuracy_threshold),
+            tfma.MetricConfig(class_name='ExampleCount')])
+
+    eval_config = tfma.EvalConfig(
+        model_specs=[
+            tfma.ModelSpec(label_key='income_bracket')
+    ],
+    metrics_specs=[metrics_specs],
+    slicing_specs=[
+        tfma.SlicingSpec(),
+        tfma.SlicingSpec(feature_keys=['occupation'])])
+    
+    return eval_config
+    
+    

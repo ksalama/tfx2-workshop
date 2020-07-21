@@ -26,7 +26,7 @@ LABEL_KEY = 'predicted_label'
 SCORE_KEY = 'confidence'
 PROBABILITIES_KEY = 'probabilities'
 SERVING_SIGNATURE_NAME = 'serving_features'
-EVAL_SIGNATURE_NAME = 'serving_tf_examples'
+EVAL_SIGNATURE_NAME = 'serving_default'
 
 HIDDEN_UNITS = [32, 32]
 LEARNING_RATE = 0.0001
@@ -130,10 +130,9 @@ def _make_tf_examples_eval_fn(model, transform_output):
     def serve_tf_examples_fn(serialized_tf_examples):
         
         feature_spec = transform_output.raw_feature_spec()
-        
         parsed_features = tf.io.parse_example(serialized_tf_examples, feature_spec)
+        
         transformed_features = model.tft_layer(parsed_features)
-
         transformed_features.pop(TARGET_FEATURE_NAME)
         transformed_features.pop(WEIGHT_FEATURE_NAME)
 

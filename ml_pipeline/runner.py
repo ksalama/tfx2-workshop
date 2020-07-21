@@ -27,6 +27,7 @@ import pipeline
 if __name__ == '__main__':
 
     # Set the values for the compile time parameters
+    
     ai_platform_training_args = {
         'project': config.PROJECT_ID,
         'region': config.GCP_REGION,
@@ -73,8 +74,6 @@ if __name__ == '__main__':
         default=0.75,
         ptype=float
     )
-    
-    accuracy_threshold
     
     pipeline_root = '{}/{}/{}'.format(
         config.ARTIFACT_STORE_URI, 
