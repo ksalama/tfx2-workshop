@@ -136,7 +136,7 @@ def create_pipeline(pipeline_name: Text,
     
     register = tfx.components.Pusher(
       model=trainer.outputs.model,
-      model_blessing=model_evaluator.outputs.blessing,
+      model_blessing=model_validator.outputs.blessing,
       push_destination=tfx.proto.pusher_pb2.PushDestination(
           filesystem=tfx.proto.pusher_pb2.PushDestination.Filesystem(
               base_directory=os.path.join(model_regisrty_uri, pipeline_name)))
