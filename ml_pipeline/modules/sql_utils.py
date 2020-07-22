@@ -20,19 +20,19 @@ from pathlib import Path
 SOURCE_QUERY = """
     SELECT 
         age,
-        workclass,
+        TRIM(workclass) AS workclass,
         fnlwgt,
-        education,
+        TRIM(education) AS education,
         education_num,
-        marital_status,
-        occupation,
-        relationship,
-        race,
-        gender,
+        TRIM(marital_status) AS marital_status,
+        TRIM(occupation) AS occupation,
+        TRIM(relationship) AS relationship,
+        TRIM(race) AS race,
+        TRIM(gender) AS gender,
         capital_gain,
         capital_loss,
         hours_per_week,
-        native_country,
+        TRIM(native_country) AS native_country,
         CASE WHEN income_bracket = ' <=50K' THEN 0 ELSE 1 END AS income_bracket
     FROM 
         @dataset_name.census

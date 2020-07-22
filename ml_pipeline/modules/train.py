@@ -228,7 +228,8 @@ def run_fn(params):
         epochs=epochs,
         validation_data=eval_dataset,
         validation_steps=params.eval_steps,
-        callbacks=callbacks
+        callbacks=callbacks,
+        verbose=1
     )
     
     signatures = create_model_signatures(model, transform_output)

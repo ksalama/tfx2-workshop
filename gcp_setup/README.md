@@ -48,7 +48,7 @@ gcloud services enable \
     ml.googleapis.com
 ```
 
-## Build ML Container Image
+## Build TFX Container Image
 
 we create container image with the required libraries to be used for 
 experimentation in AI Platform Notebooks, and as a base image for 

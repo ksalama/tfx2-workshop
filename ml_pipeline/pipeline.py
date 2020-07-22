@@ -45,6 +45,7 @@ def create_pipeline(pipeline_name: Text,
                     ai_platform_training_args: Dict[Text, Text],
                     ai_platform_serving_args: Dict[Text, Text],
                     beam_pipeline_args: List[Text],
+                    model_regisrty_uri: Text,
                     enable_cache: Optional[bool] = False) -> pipeline.Pipeline:
     """Implements the online news pipeline with TFX."""
 
@@ -80,19 +81,6 @@ def create_pipeline(pipeline_name: Text,
         module_file=TRANSFORM_MODULE_FILE
     )
 
-#     # Train and save model for evaluation and serving.
-#     trainer = tfx.components.Trainer(
-#         custom_executor_spec=executor_spec.ExecutorClassSpec(
-#             ai_platform_trainer_executor.GenericExecutor),
-#         module_file=TRAIN_MODULE_FILE,
-#         transformed_examples=transform.outputs.transformed_examples,
-#         schema=schema_importer.outputs.result,
-#         transform_output=transform.outputs.transform_output,
-#         train_args={'num_steps': train_steps},
-#         eval_args={'num_steps': eval_steps},
-#         custom_config={'ai_platform_training_args': ai_platform_training_args}
-#     )
-
 
     # Get the latest blessed model for model validation.
     latest_model_resolver = tfx.components.ResolverNode(
@@ -104,16 +92,20 @@ def create_pipeline(pipeline_name: Text,
     
     # Train and save model for evaluation and serving.
     trainer = tfx.components.Trainer(
+#         custom_executor_spec=executor_spec.ExecutorClassSpec(
+#             ai_platform_trainer_executor.GenericExecutor),
         custom_executor_spec=executor_spec.ExecutorClassSpec(
             trainer_executor.GenericExecutor),
         module_file=TRAIN_MODULE_FILE,
         transformed_examples=transform.outputs.transformed_examples,
         schema=schema_importer.outputs.result,
-        transform_graph=transform.outputs.transform_graph,
+        transform_output=transform.outputs.transform_output,
         base_model=latest_model_resolver.outputs.model,
         train_args={'num_steps': train_steps},
         eval_args={'num_steps': eval_steps},
+        custom_config={'ai_platform_training_args': ai_platform_training_args}
     )
+
 
     # Uses TFMA to compute a evaluation statistics over features of a model.
     model_evaluator = tfx.components.Evaluator(
@@ -133,12 +125,21 @@ def create_pipeline(pipeline_name: Text,
 
     # Checks whether the model passed the validation steps and pushes the model
     # to its destination if check passed.
-    pusher = tfx.components.Pusher(
-        custom_executor_spec=executor_spec.ExecutorClassSpec(
-            ai_platform_pusher_executor.Executor),
-        model_export=trainer.outputs.output,
-        model_blessing=model_evaluator.outputs.blessing,
-        custom_config={'ai_platform_serving_args': ai_platform_serving_args}
+#     pusher = tfx.components.Pusher(
+#         custom_executor_spec=executor_spec.ExecutorClassSpec(
+#             ai_platform_pusher_executor.Executor),
+#         model_export=trainer.outputs.output,
+#         model_blessing=model_evaluator.outputs.blessing,
+#         #model_blessing=model_validator.outputs.blessing,
+#         custom_config={'ai_platform_serving_args': ai_platform_serving_args}
+#     )
+    
+    register = tfx.components.Pusher(
+      model=trainer.outputs.model,
+      model_blessing=model_evaluator.outputs.blessing,
+      push_destination=tfx.proto.pusher_pb2.PushDestination(
+          filesystem=tfx.proto.pusher_pb2.PushDestination.Filesystem(
+              base_directory=os.path.join(model_regisrty_uri, pipeline_name)))
     )
     
     return pipeline.Pipeline(
@@ -154,7 +155,8 @@ def create_pipeline(pipeline_name: Text,
             trainer, 
             model_evaluator, 
             model_validator, 
-            pusher
+            #pusher
+            register
       ],
       enable_cache=enable_cache,
       beam_pipeline_args=beam_pipeline_args)

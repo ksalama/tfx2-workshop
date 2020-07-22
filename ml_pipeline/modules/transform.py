@@ -13,6 +13,7 @@
 # limitations under the License.
 """TFT Preprocessing."""
 
+import tensorflow as tf
 import tensorflow_transform as tft
 import tensorflow_data_validation as tfdv
 
@@ -22,6 +23,10 @@ RAW_SCHEMA_LOCATION = 'ml_pipeline/raw_schema/schema.pbtxt'
 
 raw_schema = tfdv.load_schema_text(RAW_SCHEMA_LOCATION)
 
+def _prep(feature):
+    #return tf.squeeze(feature, axis=1)
+    return feature
+
 def preprocessing_fn(input_features):
 
     processed_features = {}
@@ -30,20 +35,20 @@ def preprocessing_fn(input_features):
         
         # Pass the target feature as is.
         if feature.name in [TARGET_FEATURE_NAME, WEIGHT_FEATURE_NAME]:
-            processed_features[feature.name] = input_features[feature.name]
+            processed_features[feature.name] = _prep(input_features[feature.name])
             continue
             
         if feature.type == 1:
             # Extract vocabulary and integerize categorical features.
-            processed_features[feature.name+"_integerized"] = tft.compute_and_apply_vocabulary(
-                input_features[feature.name], vocab_filename=feature.name)
+            processed_features[feature.name+"_integerized"] = _prep(tft.compute_and_apply_vocabulary(
+                input_features[feature.name], vocab_filename=feature.name))
         else:
             # normalize numeric features.
-            processed_features[feature.name+"_scaled"] = tft.scale_to_z_score(input_features[feature.name])
+            processed_features[feature.name+"_scaled"] = _prep(tft.scale_to_z_score(input_features[feature.name]))
 
         # Bucketize age using quantiles. 
         quantiles = tft.quantiles(input_features["age"], num_buckets=5, epsilon=0.01)
-        processed_features["age_bucketized"] = tft.apply_buckets(
-            input_features["age"], bucket_boundaries=quantiles)
+        processed_features["age_bucketized"] = _prep(tft.apply_buckets(
+            input_features["age"], bucket_boundaries=quantiles))
 
     return processed_features

@@ -28,4 +28,5 @@ PYTHON_VERSION=os.getenv("PYTHON_VERSION", "3.7")
 USE_KFP_SA=os.getenv("USE_KFP_SA", "False")
 TFX_IMAGE=os.getenv("KFP_TFX_IMAGE", "tensorflow/tfx:0.21.4")
 BEAM_RUNNER=os.getenv("BEAM_RUNNER", "DirectRunner")
+MODEL_REGISTRY_URI=os.getenv("MODEL_REGISTRY_URI", "gs://ks-kfp-artifact-store/model_registry")
     

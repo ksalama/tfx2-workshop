@@ -101,4 +101,6 @@ if __name__ == '__main__':
             accuracy_threshold=accuracy_threshold,
             ai_platform_training_args=ai_platform_training_args,
             ai_platform_serving_args=ai_platform_serving_args,
-            beam_pipeline_args=beam_pipeline_args))
+            beam_pipeline_args=beam_pipeline_args,
+            model_regisrty_uri=config.MODEL_REGISTRY_URI)
+    )
