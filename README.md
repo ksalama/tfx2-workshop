@@ -5,8 +5,8 @@ and AI Platform Pipelines. The ML pipeline uses Google Cloud Platform (GCP) mana
 
 This workshop uses **Python 3.7** requires the following packages:
 
-* TensorFlow 2.1
-* TFX  2.1.4
+* TensorFlow 2.2
+* TFX  0.22.1
 * KFP SDK 0.5.1
 
 ## MLOps environment on GCP

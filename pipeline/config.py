@@ -19,14 +19,14 @@ import os
 
 PIPELINE_NAME=os.getenv("PIPELINE_NAME", "census_continuous_training")
 MODEL_NAME=os.getenv("MODEL_NAME", "census_classifier")
-PROJECT_ID=os.getenv("PROJECT_ID", "ksalama-research")
+PROJECT_ID=os.getenv("PROJECT_ID", "tfx-cloudml")
 GCP_REGION=os.getenv("GCP_REGION", "europe-west1")
 DATASET_NAME=os.getenv("DATASET_NAME", "sample_datasets")
-ARTIFACT_STORE_URI=os.getenv("ARTIFACT_STORE_URI", "gs://ks-kfp-artifact-store")
+ARTIFACT_STORE_URI=os.getenv("ARTIFACT_STORE_URI", "gs://tfx-cloudml-artifacts")
 RUNTIME_VERSION=os.getenv("RUNTIME_VERSION", "2.1")
 PYTHON_VERSION=os.getenv("PYTHON_VERSION", "3.7")
 USE_KFP_SA=os.getenv("USE_KFP_SA", "False")
 TFX_IMAGE=os.getenv("KFP_TFX_IMAGE", "tensorflow/tfx:0.21.4")
 BEAM_RUNNER=os.getenv("BEAM_RUNNER", "DirectRunner")
-MODEL_REGISTRY_URI=os.getenv("MODEL_REGISTRY_URI", "gs://ks-kfp-artifact-store/model_registry")
+MODEL_REGISTRY_URI=os.getenv("MODEL_REGISTRY_URI", "gs://tfx-cloudml-artifacts/model_registry")
     

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "age",
+    "type": "INT64"
+  },
+  {
+    "name": "workclass",
+    "type": "STRING"
+  },
+  {
+    "name": "fnlwgt",
+    "type": "INT64"
+  },
+  {
+    "name": "education",
+    "type": "STRING"
+  },
+  {
+    "name": "education_num",
+    "type": "INT64"
+  },
+  {
+    "name": "marital_status",
+    "type": "STRING"
+  },
+  {
+    "name": "occupation",
+    "type": "STRING"
+  },
+  {
+    "name": "relationship",
+    "type": "STRING"
+  },
+  {
+    "name": "race",
+    "type": "STRING"
+  },
+  {
+    "name": "gender",
+    "type": "STRING"
+  },
+  {
+    "name": "capital_gain",
+    "type": "INT64"
+  },
+  {
+    "name": "capital_loss",
+    "type": "INT64"
+  },
+  {
+    "name": "hours_per_week",
+    "type": "INT64"
+  },
+  {
+    "name": "native_country",
+    "type": "STRING"
+  },
+  {
+    "name": "income_bracket",
+    "type": "STRING"
+  }
+]

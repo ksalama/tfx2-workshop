@@ -1,4 +1,17 @@
 feature {
+  name: "age"
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+  shape {
+    dim {
+      size: 1
+    }
+  }
+}
+feature {
   name: "workclass"
   type: BYTES
   domain: "workclass"
@@ -13,9 +26,35 @@ feature {
   }
 }
 feature {
+  name: "fnlwgt"
+  type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+  shape {
+    dim {
+      size: 1
+    }
+  }
+}
+feature {
   name: "education"
   type: BYTES
   domain: "education"
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+  shape {
+    dim {
+      size: 1
+    }
+  }
+}
+feature {
+  name: "education_num"
+  type: INT
   presence {
     min_fraction: 1.0
     min_count: 1
@@ -100,59 +139,6 @@ feature {
   }
 }
 feature {
-  name: "native_country"
-  type: BYTES
-  domain: "native_country"
-  presence {
-    min_fraction: 1.0
-    min_count: 1
-  }
-  shape {
-    dim {
-      size: 1
-    }
-  }
-}
-feature {
-  name: "age"
-  type: INT
-  presence {
-    min_fraction: 1.0
-    min_count: 1
-  }
-  shape {
-    dim {
-      size: 1
-    }
-  }
-}
-feature {
-  name: "fnlwgt"
-  type: INT
-  presence {
-    min_fraction: 1.0
-    min_count: 1
-  }
-  shape {
-    dim {
-      size: 1
-    }
-  }
-}
-feature {
-  name: "education_num"
-  type: INT
-  presence {
-    min_fraction: 1.0
-    min_count: 1
-  }
-  shape {
-    dim {
-      size: 1
-    }
-  }
-}
-feature {
   name: "capital_gain"
   type: INT
   presence {
@@ -181,6 +167,20 @@ feature {
 feature {
   name: "hours_per_week"
   type: INT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+  shape {
+    dim {
+      size: 1
+    }
+  }
+}
+feature {
+  name: "native_country"
+  type: BYTES
+  domain: "native_country"
   presence {
     min_fraction: 1.0
     min_count: 1

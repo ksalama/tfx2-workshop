@@ -14,6 +14,7 @@
 """Census training pipeline DSL."""
 
 import os
+import sys
 from typing import Dict, List, Text, Optional
 from kfp import gcp
 import tfx
@@ -28,12 +29,17 @@ from tfx.extensions.google_cloud_ai_platform.pusher import executor as ai_platfo
 from tfx.orchestration import pipeline
 from tfx.types.standard_artifacts import Schema, Model, ModelBlessing
 
+
+SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, '..')))
+
 from modules.custom_components import AccuracyModelValidator
 from modules import sql_utils, helper
 
-RAW_SCHEMA_DIR='ml_pipeline/raw_schema'
-TRANSFORM_MODULE_FILE='ml_pipeline/modules/transform.py'
-TRAIN_MODULE_FILE='ml_pipeline/modules/train.py'
+
+RAW_SCHEMA_DIR='raw_schema'
+TRANSFORM_MODULE_FILE='modules/transform.py'
+TRAIN_MODULE_FILE='modules/train.py'
 
 
 def create_pipeline(pipeline_name: Text, 
@@ -123,8 +129,8 @@ def create_pipeline(pipeline_name: Text,
         slice_accuracy_tolerance=0.15,
     )
 
-    # Checks whether the model passed the validation steps and pushes the model
-    # to its destination if check passed.
+#     # Checks whether the model passed the validation steps and pushes the model
+#     # to its destination if check passed.
 #     pusher = tfx.components.Pusher(
 #         custom_executor_spec=executor_spec.ExecutorClassSpec(
 #             ai_platform_pusher_executor.Executor),
@@ -137,6 +143,7 @@ def create_pipeline(pipeline_name: Text,
     register = tfx.components.Pusher(
       model=trainer.outputs.model,
       model_blessing=model_validator.outputs.blessing,
+      #model_blessing=model_evaluator.outputs.blessing,
       push_destination=tfx.proto.pusher_pb2.PushDestination(
           filesystem=tfx.proto.pusher_pb2.PushDestination.Filesystem(
               base_directory=os.path.join(model_regisrty_uri, pipeline_name)))

@@ -17,6 +17,7 @@ import math
 import os
 import tensorflow as tf
 import tensorflow_transform as tft
+import logging
 
 TARGET_FEATURE_NAME = 'income_bracket'
 WEIGHT_FEATURE_NAME = 'fnlwgt'
@@ -195,6 +196,9 @@ def create_model_signatures(model, transform_output):
 
 # TFX will call this function
 def run_fn(params):
+    
+    logger = tf.get_logger()
+    logger.setLevel(logging.ERROR)
 
     transform_output = tft.TFTransformOutput(params.transform_output)
     
@@ -229,7 +233,7 @@ def run_fn(params):
         validation_data=eval_dataset,
         validation_steps=params.eval_steps,
         callbacks=callbacks,
-        verbose=1
+        verbose=2
     )
     
     signatures = create_model_signatures(model, transform_output)
